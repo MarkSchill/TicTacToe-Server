@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Index View</title>
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+</head>
+
+<body>
+	<header class="p-3 bg-dark text-white">
+		<div class="container">
+			<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+				<a class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none" href="/">Tic Tac Toe</a>
+				<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+					<li class="nav-link px-2 text-secondary">Home</li>
+					<li class="nav-link px-2 text-white">Scores</li>
+				</ul>
+				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+					<input class="form-control form-control-dark" type="search" placeholder="Search..." />
+				</form>
+				<div class="text-end">
+					<button class="btn btn-outline-light me-2" type="button">Login</button>
+					<button class="btn btn-warning" type="button">Register</button>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="container text-center mt-5 p-5">
+		<h3>Register</h3>
+		<form action="/register" method="POST">
+			<div class="form-floating mb-3">
+				<input class="form-control" id="username" name="username" type="text" />
+				<label for="username">Username</label>
+			</div>
+
+			<div class="form-floating mb-3">
+				<input class="form-control" id="email" name="email" type="email" />
+				<label for="email">Email</label>
+			</div>
+
+
+			<div class="text-end">
+				<button class="btn btn-dark" type="submit">Submit</button>
+			</div>
+		</form>
+	</div>
+
+	<div class="container w-25 text-center">
+		<div class="row">
+			<div class="col border-bottom border-end" id="cell1">
+				<button class="btn btn-dark" type="button"></button>
+			</div>
+			<div class="col border-bottom border-start border-end" id="cell2">
+				<button class="btn btn-dark" type="button"></button>
+			</div>
+			<div class="col border-bottom border-start" id="cell3">
+				<button class="btn btn-dark" type="button"></button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col border-top border-end border-bottom" id="cell4">
+				<button class="btn btn-dark" type="button"></button>
+			</div>
+			<div class="col border" id="cell5">
+				<button class="btn btn-dark" type="button"></button>
+			</div>
+			<div class="col" id="cell6">
+				<button class="btn btn-dark" type="button"></button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col" id="cell7">
+				<button class="btn btn-dark" type="button"></button>
+			</div>
+			<div class="col" id="cell8">
+				<button class="btn btn-dark" type="button"></button>
+			</div>
+			<div class="col" id="cell9">
+				<button class="btn btn-dark" type="button"></button>
+			</div>
+		</div>
+	</div>
+
+	<div class="container text-center">
+		<h3>Lobby: </h3>
+		<ul>
+			
+		</ul>
+	</div>
+
+	<!-- <button class="btn btn-rounded" id="replay">Play Again</button> -->
+</body>
+
+</html>
