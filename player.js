@@ -11,7 +11,7 @@ app.get('/:id', (req, res, next) => {
     res.status(200).json(player);
 });
 
-app.post('/join', body(['username', 'email']).notEmpty().escape(), (req, res, next) => {
+app.post('/new', body(['username', 'email']).notEmpty().escape(), (req, res, next) => {
     const result = validationResult(req);
     if (result.isEmpty()) {
         const data = matchedData(req);
