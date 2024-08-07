@@ -1,7 +1,7 @@
-
-const { BASE_DIR } = require('./util');
 const fs = require('node:fs/promises');
+const path = require('node:path');
 
+const BASE_DIR = path.join(__dirname);
 const PLAYER_FILE = BASE_DIR + '/data/players.json';
 const GAME_FILE = BASE_DIR + '/data/games.json';
 
@@ -11,31 +11,31 @@ let game_handle;
 let players = [];
 let games = [];
 
-async function loadPlayers() {
+async function init() {
 	try {
 		player_handle = await fs.open(PLAYER_FILE, 'w+');
 
 		let data = await fs.readFile(player_handle, { encoding: 'utf-8' });
 		if (data !== '') players = JSON.parse(data);
+
+		console.log('Player data loaded');
 	} catch (err) {
 		console.log(err);
 		return false;
 	}
-	
-	return true;
-}
 
-async function loadGames() {
 	try {
 		game_handle = await fs.open(GAME_FILE, 'w+');
 
 		let data = await fs.readFile(game_handle, { encoding: 'utf-8' });
 		if (data !== '') games = JSON.parse(data);
+
+		console.log('Game data loaded');
 	} catch (err) {
 		console.log(err);
 		return false;
 	}
-
+	
 	return true;
 }
 
@@ -59,4 +59,4 @@ async function addGame(game) {
 	}
 }
 
-module.exports = { players, games, loadPlayers, loadGames, addPlayer, addGame };
+module.exports = { players, games, init, addPlayer, addGame };
