@@ -3,6 +3,7 @@ const cors = require('cors');
 const multer = require('multer');
 const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
+const db = require('./db');
 
 const player = require('./player');
 const game = require('./game');
@@ -33,10 +34,6 @@ app.use('/player', player.app);
 
 app.get('/', (req, res, next) => {
     res.status(200).json({});
-});
-
-app.get('/lobby', (req, res, next) => {
-    res.status(200).json(players);
 });
 
 app.listen(port, () => {

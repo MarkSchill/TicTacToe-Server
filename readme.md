@@ -5,8 +5,6 @@ Player routes:
 -- Return the stats of the player record
 - /player/join (POST)
 -- Create a new player record with the given information
-- /player/disconnect (POST)
--- Remove the player record from the database
 
 Game routes:
 - /game/:id
