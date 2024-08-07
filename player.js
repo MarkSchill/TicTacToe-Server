@@ -34,7 +34,7 @@ app.post('/join', body(['username', 'email']).notEmpty().escape(), (req, res, ne
 });
 
 app.on('mount', (parent) => {
-    console.log('Player mounted');
+    console.log('Player app mounted');
 });
 
 module.exports = { app };

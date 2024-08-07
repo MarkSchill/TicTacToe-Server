@@ -49,12 +49,14 @@ async function addPlayer(player) {
 	}
 }
 
-function addGame(game) {
-
+async function addGame(game) {
+	let temp = [game, ...games];
+	try {
+		await fs.writeFile(game_handle, JSON.stringify(temp));
+		games = temp;
+	} catch (err) {
+		console.error(err);
+	}
 }
 
-function removeGame(game) {
-
-}
-
-module.exports = { players, games, loadPlayers, loadGames, addPlayer, addGame, removeGame };
+module.exports = { players, games, loadPlayers, loadGames, addPlayer, addGame };
