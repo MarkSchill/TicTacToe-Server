@@ -26,15 +26,15 @@ app.post('/register', body(['email', 'password']).notEmpty().escape(), (req, res
     const data = matchedData(req);
 
     const player = {
+        id: req.session.id,
         email: data.email,
         password: data.password,
-        id: req.session.id,
     };
 
     db.addPlayer(player)
         .then((success) => {
             if (success) {
-                req.session.registered = true;
+                // req.session.registered = true;
                 res.status(200).json({ errors: [], success: true });
             } else {
                 res.status(500).json({ errors: ['Failed'], success: false });
@@ -50,6 +50,17 @@ app.post('/login', body(['email', 'password']).notEmpty().escape(), (req, res, n
     }
 
     const data = matchedData(req);
+
+    db.authenticate(data)
+        .then((success) => {
+            if (success) {
+                req.session.authenticated = true;
+                res.status(200).json({ errors: [], msg: 'Login successful' });
+            } else {
+                res.status(200).json({ errors: ['Invalid email or password'] });
+            }
+        })
+        .catch((error) => res.status(501));
 });
 
 app.on('mount', (parent) => {

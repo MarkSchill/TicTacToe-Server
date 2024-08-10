@@ -25,6 +25,14 @@ async function init() {
 	return true;
 }
 
+async function authenticate(data) {
+	if (players.find((p) => p.email === data.email && p.password === data.password) === undefined) {
+		return false;
+	}
+
+	return true;
+}
+
 async function addPlayer(player) {
 	const playerExists = (p) => p.email == player.email;
 	if (players.find(playerExists) !== undefined) {
@@ -54,4 +62,6 @@ async function addGame(game) {
 	}
 }
 
-module.exports = { players, games, init, addPlayer, addGame };
+
+
+module.exports = { players, games, init, authenticate, addPlayer, addGame };
