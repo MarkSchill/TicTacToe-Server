@@ -1,16 +1,23 @@
 const express = require('express');
 const { body, matchedData, validationResult } = require('express-validator');
+const { requireLogin } = require('./secure');
 
 const db = require('./db');
 
 const app = express();
 
-app.get('/:id', (req, res, next) => {
+app.get('/:id', requireLogin, (req, res, next) => {
     let player = db.players.find((p) => p.id === req.params.id);
-    res.status(200).json(player);
+    if (player === undefined) {
+        res.status(404);
+    } else {
+        res.status(200);
+    }
+
+    res.json(player);
 });
 
-app.post('/new', body(['username', 'email']).notEmpty().escape(), (req, res, next) => {
+app.post('/register', body(['email', 'password']).notEmpty().escape(), (req, res, next) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
         return res.status(500).json({ errors: result.array() });
@@ -19,9 +26,9 @@ app.post('/new', body(['username', 'email']).notEmpty().escape(), (req, res, nex
     const data = matchedData(req);
 
     const player = {
-        id: req.session.id,
-        username: data.username,
         email: data.email,
+        password: data.password,
+        id: req.session.id,
     };
 
     db.addPlayer(player)
@@ -34,6 +41,15 @@ app.post('/new', body(['username', 'email']).notEmpty().escape(), (req, res, nex
             }
         })
         .catch((error) => res.status(500).json({ errors: ['Failed'], success: false }));
+});
+
+app.post('/login', body(['email', 'password']).notEmpty().escape(), (req, res, next) => {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+        return res.status(500).json({ errors: result.array() });
+    }
+
+    const data = matchedData(req);
 });
 
 app.on('mount', (parent) => {

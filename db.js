@@ -26,7 +26,7 @@ async function init() {
 }
 
 async function addPlayer(player) {
-	const playerExists = (p) => p.username == player.username || p.email == player.email;
+	const playerExists = (p) => p.email == player.email;
 	if (players.find(playerExists) !== undefined) {
 		console.error(`Duplicate value detected when saving ${JSON.stringify(player)}`);
 		return false;
@@ -35,13 +35,13 @@ async function addPlayer(player) {
 	try {
 		players.push(player);
 		await fs.writeJson(PLAYER_FILE, players);
-
-		return true;
 	} catch (err) {
 		console.error(err);
 
 		return false;
 	}
+
+	return true;
 }
 
 async function addGame(game) {
