@@ -24,13 +24,16 @@ app.post('/new', body(['username', 'email']).notEmpty().escape(), (req, res, nex
         email: data.email,
     };
 
-    if (!db.addPlayer(player)) {
-        return res.status(500).json({ errors: ['Failed to add a new player.'] });
-    }
-
-    req.session.registered = true;
-    return res.status(200).json({ errors: [] });
-
+    db.addPlayer(player)
+        .then((success) => {
+            if (success) {
+                req.session.registered = true;
+                res.status(200).json({ errors: [], success: true });
+            } else {
+                res.status(500).json({ errors: ['Failed'], success: false });
+            }
+        })
+        .catch((error) => res.status(500).json({ errors: ['Failed'], success: false }));
 });
 
 app.on('mount', (parent) => {
