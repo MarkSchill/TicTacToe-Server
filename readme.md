@@ -1,13 +1,19 @@
-# API Routes
+# Tic Tac Toe
+## This is a small project to learn more about creating and maintaining APIs
 
-Player routes:
-- /player/:id (GET, POST)
--- Return the stats of the player record
-- /player/new (POST)
--- Create a new player record with the given information
+### Routes
+Player:
+- /player
+- /player/register
+- /player/login
+- /player/stats/:id
 
-Game routes:
-- /game/:id
+Game:
+- /game
 - /game/new
-- /game/finish
-- /game/
+- /game/update/:id
+- /game/stats/:id
+
+Admin:
+- /admin/player/:id
+- /admin/game/:id
