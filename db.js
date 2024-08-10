@@ -1,38 +1,24 @@
-const fs = require('node:fs/promises');
+const fs = require('fs-extra');
 const path = require('node:path');
 
 const BASE_DIR = path.join(__dirname);
 const PLAYER_FILE = BASE_DIR + '/data/players.json';
 const GAME_FILE = BASE_DIR + '/data/games.json';
 
-let player_handle;
-let game_handle;
-
 let players = [];
 let games = [];
 
 async function init() {
 	try {
-		player_handle = await fs.open(PLAYER_FILE, 'w+');
-
-		let data = await fs.readFile(player_handle, { encoding: 'utf-8' });
-		if (data !== '') players = JSON.parse(data);
-
+		const player_data = await fs.readJson(PLAYER_FILE);
+		players = [...player_data, ...players];
 		console.log('Player data loaded');
-	} catch (err) {
-		console.log(err);
-		return false;
-	}
 
-	try {
-		game_handle = await fs.open(GAME_FILE, 'w+');
-
-		let data = await fs.readFile(game_handle, { encoding: 'utf-8' });
-		if (data !== '') games = JSON.parse(data);
-
+		games = await fs.readJson(GAME_FILE);
 		console.log('Game data loaded');
 	} catch (err) {
-		console.log(err);
+		console.error('Failed to load data:')
+		console.error(err);
 		return false;
 	}
 	
@@ -40,12 +26,21 @@ async function init() {
 }
 
 async function addPlayer(player) {
-	let temp = [player, ...players];
+	const playerExists = (p) => p.username == player.username || p.email == player.email;
+	if (players.find(playerExists) !== undefined) {
+		console.error(`Duplicate value detected when saving ${JSON.stringify(player)}`);
+		return false;
+	}
+
 	try {
-		await fs.writeFile(player_handle, JSON.stringify(temp));
-		players = temp;
+		players.push(player);
+		await fs.writeJson(PLAYER_FILE, players);
+
+		return true;
 	} catch (err) {
 		console.error(err);
+
+		return false;
 	}
 }
 

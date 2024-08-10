@@ -5,7 +5,6 @@ const db = require('./db');
 
 const app = express();
 
-// Routes
 app.get('/:id', (req, res, next) => {
     let player = db.players.find((p) => p.id === req.params.id);
     res.status(200).json(player);
@@ -16,7 +15,7 @@ app.post('/new', body(['username', 'email']).notEmpty().escape(), (req, res, nex
     if (!result.isEmpty()) {
         return res.status(500).json({ errors: result.array() });
     }
-    
+
     const data = matchedData(req);
 
     const player = {

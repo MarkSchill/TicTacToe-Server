@@ -4,7 +4,7 @@ const multer = require('multer');
 const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
 
-const { init } = require('./db');
+const db = require('./db');
 
 const player = require('./player');
 const game = require('./game');
@@ -14,9 +14,13 @@ const app = express();
 const hostname = '127.0.0.1';
 const port = 3000;
 
-if (!(await init())) {
-    process.exit();
-}
+db.init()
+    .then((value) => {
+        if (!value) {
+            process.exit();
+        }
+    })
+    .catch((response) => process.exit());
 
 app.use(cors()); // Enable cross origin resource sharing
 app.use(express.json());
